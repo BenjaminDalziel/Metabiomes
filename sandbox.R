@@ -4,6 +4,7 @@ rm(list=ls())
 graphics.off()
 
 setwd('~/Dropbox/Research/Metabiomes')
-source('GetCommunityMatrix.R')
+source('SampleCommunityMatrix.R')
 source('DrawCommunityMatrix.R')
+
 

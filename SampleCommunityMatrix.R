@@ -21,7 +21,7 @@ SampleCommunityMatrix <- function(S, C, sigma, Pm, Pc, s) {
   A <- matrix(0, S, S)
   diag(A) <- -s
   
-  for (i in 1:S) {
+  for (i in 2:S) {
     for (j in 1:(i - 1)) {
       if (runif(1) <= C) {
         p <- runif(1)
