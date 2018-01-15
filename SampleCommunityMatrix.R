@@ -1,4 +1,4 @@
-GetCommunityMatrix <- function(S, C, sigma, Pm, Pc, s) {
+SampleCommunityMatrix <- function(S, C, sigma, Pm, Pc, s) {
 
   # Return a community interaction matrix sampled per the arguments
   #
