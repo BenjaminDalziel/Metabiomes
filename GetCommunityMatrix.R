@@ -1,5 +1,5 @@
 GetCommunityMatrix <- function(S, C, sigma, Pm, Pc, s) {
-  
+
   # Return a community interaction matrix sampled per the arguments
   #
   # S       Number of taxa
@@ -50,7 +50,12 @@ GetCommunityMatrix <- function(S, C, sigma, Pm, Pc, s) {
       }
     }
   }
-  
+
   return(A)
   
 }
+
+
+
+
+
