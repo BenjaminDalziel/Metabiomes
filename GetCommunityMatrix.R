@@ -2,6 +2,7 @@ GetCommunityMatrix <- function(S, C, sigma, Pm, Pc, s) {
 
   # Return a community interaction matrix sampled per the arguments
   #
+  # Arguments:
   # S       Number of taxa
   # C       Community connectivity i.e. proportion nonzero links
   # sigma   Standard deviation of interaction strength
