@@ -10,9 +10,14 @@ SampleCommunityMatrix <- function(S, C, sigma, Pm, Pc, s) {
   # Pc      Proportion competitive interactions (-/-)
   # s       Strength of intraspecific competition
   #
+  # Remarks:
   # The method follows Coyte et al. 2015, and can reproduce the criteria used in
-  # May 1972 as a special case, by setting Pm = Pc = 0.25
+  # May 1972 as a special case, by setting Pm = Pc = 0.25.
   #
+  # At present the method (and everything downstream) ignores commensal and amensal interactions.
+  #
+  #
+  # References:
   # Coyte, K. Z., Schluter, J., & Foster, K. R. (2015). Science, 350(6261), 663–666.
   # http://doi.org/10.1126/science.aad2602
   #
