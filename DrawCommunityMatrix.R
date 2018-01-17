@@ -11,46 +11,43 @@ DrawCommunityMatrix <- function(A, x, y, cex, lod) {
   # Remarks:
   # The function assumes the overall plot extends from -1 to 1 in horizontal and vertical.
   
+  radius <- cex
+  point.cex <- cex
+  minabsA <- min(abs(A))
+  maxabsA <- max(abs(A))
+  S <- nrow(A)
+  theta <- seq(0, 2*pi, length.out = S+1)[-1]
+  x <- x + radius * cos(theta)
+  y <- y + radius * sin(theta)
+  
+  col1 <- rgb(200/255,73/255,41/255)
+  col2 <- rgb(20/255,20/255,150/255)
+  col3 <- rgb(234/255,173/255,54/255)
+  
+  S <- nrow(A)
+  
+  theta <- seq(0, 2*pi, length.out = S+1)[-1]
+  x <- x + radius*cos(theta)
+  y <- y + radius*sin(theta)
+  
+  for (i in 2:S){
+    for (j in 1:(i-1)){
+      if (A[i,j] != 0) {
+        
+        a <- A[i,j]
+        b <- A[j,i]
+        
+        z <- (abs(a) + abs(b))/2
+        z <- (z - minabsA) / (maxabsA - minabsA)
+        
+        col <- rgb(234/255,173/255,54/255)                     #exploitation
+        if (a < 0 & b < 0) col <- rgb(20/255,20/255,150/255)   #competition
+        if (a > 0 & b > 0) col <- rgb(20/255,200/255,200/255)  #cooperation 
+        
+        segments(x[i], y[i], x[j], y[j], col = col, lwd = 20*cex*z)
 
-# determine drawing parameters
-radius <- cex
-point.cex <- cex
-minabsA <- min(abs(A))
-maxabsA <- max(abs(A))
-S <- nrow(A)
-theta <- seq(0, 2*pi, length.out = S+1)[-1]
-x <- x + radius * cos(theta)
-y <- y + radius * sin(theta)
-
-col1 <- rgb(200/255,73/255,41/255)
-col2 <- rgb(20/255,20/255,150/255)
-col3 <- rgb(234/255,173/255,54/255)
-
-S <- nrow(A)
-
-theta <- seq(0, 2*pi, length.out = S+1)[-1]
-x <- x + radius*cos(theta)
-y <- y + radius*sin(theta)
-
-for (i in 2:S){
-  for (j in 1:(i-1)){
-    if (A[i,j] != 0) {
-      
-      a <- A[i,j]
-      b <- A[j,i]
-      
-      z <- (abs(a) + abs(b))/2
-      z <- (z - minabsA) / (maxabsA - minabsA)
-      
-      col <- rgb(234/255,173/255,54/255)                     #exploitation
-      if (a < 0 & b < 0) col <- rgb(20/255,20/255,150/255)   #competition
-      if (a > 0 & b > 0) col <- rgb(20/255,200/255,200/255)  #cooperation 
-
-      segments(x[i], y[i], x[j], y[j], col = col, lwd = 20*cex*z)
-      segments(x[i], y[i], x[j], y[j], col = rgb(0,0,0,10/S))
-
+      }
     }
   }
-}
-
+  
 }
