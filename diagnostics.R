@@ -3,76 +3,129 @@
 rm(list=ls())
 graphics.off()
 
-setwd('~/Dropbox/Research/Metabiomes')
+setwd('~/Dropbox/Research/Active/Metabiomes')
 source('SampleCommunityMatrix.R')
 source('DrawCommunityMatrix.R')
 
-# Does SampleCommunityMatrix produce matrices that match input para? ------
-n <- 30
-S <- 50
 
-Cseq <- seq(0, 1, length.out = n)
-Pmseq <- seq(0, 1, length.out = n)
-Pcseq <- seq(0, 1, length.out = n)
-sigmaseq <- seq(0, 1, length.out = n)
+# Choose which tests to run -----------------------------------------------
 
-Chat <- rep(NA, n)
-Pmhat <- rep(NA, n)
-Pchat <- rep(NA, n)
-sigmahat <- rep(NA, n)
+TestBasicMatrixProperties <- T    # Does SampleCommunityMatrix return matrices whose properties match input parameters?
+TestMay1972 <- T                  # Does SampleCommunityMatrix return matrices that reproduce main result of May 1972?
 
 
-for (i in 1:n) {
+
+# BasicMatrixProperties ---------------------------------------------------
+# Does SampleCommunityMatrix return matrices whose properties match input parameters?
+
+if (TestBasicMatrixProperties) {
   
-  # Connectivity
-  A <- SampleCommunityMatrix(S = S, sigma = 0.1, C = Cseq[i], Pm = 0.2, Pc = 0.3, s = -1)
-  diag(A) <- NA
-  Chat[i] <- sum(A != 0, na.rm=T) / (S^2 - S)
+  n <- 50
+  S <- 50
   
-  # Proportion cooperative
-  A <- SampleCommunityMatrix(S = S, sigma = 0.1, C = 0.2, Pm = Pmseq[i], Pc = 0, s = -1)
-  diag(A) <- NA
-  edges <- sum(A != 0, na.rm = T)
-  count <- 0
-  for (j in 2:S){
-    for (k in 1:(j-1)){
-      if (A[j,k] > 0 & A[k,j] > 0) {
-        count <- count + 2
+  Cseq <- seq(0, 1, length.out = n)
+  Pmseq <- seq(0, 1, length.out = n)
+  Pcseq <- seq(0, 1, length.out = n)
+  sigmaseq <- seq(0, 1, length.out = n)
+  
+  Chat <- rep(NA, n)
+  Pmhat <- rep(NA, n)
+  Pchat <- rep(NA, n)
+  sigmahat <- rep(NA, n)
+  
+  for (i in 1:n) {
+    
+    # Connectivity
+    A <- SampleCommunityMatrix(S = S, sigma = 0.1, C = Cseq[i], Pm = 0.2, Pc = 0.3, s = -1)
+    diag(A) <- NA
+    Chat[i] <- sum(A != 0, na.rm=T) / (S^2 - S)
+    
+    # Proportion cooperative
+    A <- SampleCommunityMatrix(S = S, sigma = 0.1, C = 0.2, Pm = Pmseq[i], Pc = 0, s = -1)
+    diag(A) <- NA
+    edges <- sum(A != 0, na.rm = T)
+    count <- 0
+    for (j in 2:S){
+      for (k in 1:(j-1)){
+        if (A[j,k] > 0 & A[k,j] > 0) {
+          count <- count + 2
+        }
       }
     }
-  }
-  Pmhat[i] <- count/edges
-  
-  
-  # Proportion competitive
-  A <- SampleCommunityMatrix(S = S, sigma = 0.1, C = 0.2, Pm = 0, Pc = Pcseq[i], s = -1)
-  diag(A) <- NA
-  edges <- sum(A != 0, na.rm = T)
-  count <- 0
-  for (j in 2:S){
-    for (k in 1:(j-1)){
-      if (A[j,k] < 0 & A[k,j] < 0) {
-        count <- count + 2
+    Pmhat[i] <- count/edges
+    
+    
+    # Proportion competitive
+    A <- SampleCommunityMatrix(S = S, sigma = 0.1, C = 0.2, Pm = 0, Pc = Pcseq[i], s = -1)
+    diag(A) <- NA
+    edges <- sum(A != 0, na.rm = T)
+    count <- 0
+    for (j in 2:S){
+      for (k in 1:(j-1)){
+        if (A[j,k] < 0 & A[k,j] < 0) {
+          count <- count + 2
+        }
       }
     }
+    Pchat[i] <- count/edges
+    
+    
+    # Sigma
+    A <- SampleCommunityMatrix(S = S, sigma = sigmaseq[i], C = 0.2, Pm = 0.2, Pc = 0.3, s = 1)
+    diag(A) <- 0
+    sigmahat[i] <- sd(A[A != 0])
+    
+    
+    
+    
   }
-  Pchat[i] <- count/edges
   
-  
-  # Sigma
-  A <- SampleCommunityMatrix(S = S, sigma = sigmaseq[i], C = 0.2, Pm = 0.2, Pc = 0.3, s = -1)
-  diag(A) <- 0
-  sigmahat[i] <- sd(A[A != 0])
+  quartz(h = 6, w = 5)
+  par(mfrow = c(2,2))
+  plot(Cseq, Chat, xlab = "Specified", ylab = "Observed", main = expression(paste(C))); abline(0,1,col=2)
+  plot(Pmseq, Pmhat, xlab = "Specified", ylab = "Observed", main = expression(paste(P[m]))); abline(0,1,col=2)
+  plot(Pcseq, Pchat, xlab = "Specified", ylab = "Observed", main = expression(paste(P[c]))); abline(0,1,col=2)
+  plot(sigmaseq, sigmahat, xlab = "Specified", ylab = "Observed", main = expression(paste(sigma))); abline(0,1,col=2)
   
 }
 
-quartz(h = 6, w = 5)
-par(mfrow = c(2,2))
-plot(Cseq, Chat, xlab = "Specified", ylab = "Observed"); abline(0,1,col=2)
-plot(Pmseq, Pmhat, xlab = "Specified", ylab = "Observed"); abline(0,1,col=2)
-plot(Pcseq, Pchat, xlab = "Specified", ylab = "Observed"); abline(0,1,col=2)
-plot(sigmaseq, sigmahat, xlab = "Specified", ylab = "Observed"); abline(0,1,col=2)
 
 
 
 
+
+
+
+
+# May1972 -----------------------------------------------------------------
+
+if (TestMay1972) {
+  
+  S <- 50        
+  Pm <- 0.25
+  Pc <- 0.25
+  s <- 1
+  
+  nrep <- 100
+  lambda <- rep(NA, nrep)
+  
+  sigma <- runif(nrep, 0, 1)
+  C <- runif(nrep, 0, 1)
+  
+  for(i in 1:nrep){
+    
+    A <- SampleCommunityMatrix(S = S, C = C[i], sigma = sigma[i], Pm = Pm, Pc = Pc, s = s)
+    lambda[i] <- max(Re(eigen(A)$values))  #stable iff the eigenvalue with the largest real part is negative
+  
+    }
+  
+}
+
+n <- S
+alpha <- sigma^2
+quartz(h=4,w=4)
+par(pin = c(2,2))
+plot(log((n*C)^-(1/2)), log(alpha), col = as.numeric(lambda>1)+1, ylab = expression(paste(log(alpha))), xlab = expression(paste(log((n*C)^-(1/2)))))
+abline(0,1)
+
+legend('bottomright', col = c(2,1), legend = c('unstable', 'stable'), pch = 1, bty='n')
