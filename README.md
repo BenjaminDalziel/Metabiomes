@@ -1,2 +1,2 @@
 # Metabiomes
-Modeling microbial community dynamics in networks of hosts
+Modeling microbiome dynamics in networks of hosts
