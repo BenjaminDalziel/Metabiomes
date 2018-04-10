@@ -12,6 +12,7 @@ source('DrawCommunityMatrix.R')
 
 TestBasicMatrixProperties <- T    # Does SampleCommunityMatrix return matrices whose properties match input parameters?
 TestMay1972 <- T                  # Does SampleCommunityMatrix return matrices that reproduce main result of May 1972?
+TestCoyte2015 <- T                # Does SampleCommunityMatrix return matrices that predict destabilizing effect of cooperation?
 
 
 
@@ -21,7 +22,7 @@ TestMay1972 <- T                  # Does SampleCommunityMatrix return matrices t
 if (TestBasicMatrixProperties) {
   
   n <- 50
-  S <- 50
+  S <- 100
   
   Cseq <- seq(0, 1, length.out = n)
   Pmseq <- seq(0, 1, length.out = n)
@@ -98,10 +99,12 @@ if (TestBasicMatrixProperties) {
 
 
 # May1972 -----------------------------------------------------------------
+# Does SampleCommunityMatrix return matrices that reproduce main result of May 1972?
+
 
 if (TestMay1972) {
   
-  S <- 50        
+  S <- 100        
   Pm <- 0.25
   Pc <- 0.25
   s <- 1
@@ -116,16 +119,54 @@ if (TestMay1972) {
     
     A <- SampleCommunityMatrix(S = S, C = C[i], sigma = sigma[i], Pm = Pm, Pc = Pc, s = s)
     lambda[i] <- max(Re(eigen(A)$values))  #stable iff the eigenvalue with the largest real part is negative
+    
+  }
   
-    }
+  n <- S
+  alpha <- sigma^2
+  quartz(h=4,w=4)
+  par(pin = c(2,2))
+  plot(log((n*C)^-(1/2)), log(alpha), col = as.numeric(lambda>1)+1, ylab = expression(paste(log(alpha))), xlab = expression(paste(log((n*C)^-(1/2)))))
+  abline(0,1)
+  
+  legend('bottomright', col = c(2,1), legend = c('unstable', 'stable'), pch = 1, bty='n')
   
 }
 
-n <- S
-alpha <- sigma^2
-quartz(h=4,w=4)
-par(pin = c(2,2))
-plot(log((n*C)^-(1/2)), log(alpha), col = as.numeric(lambda>1)+1, ylab = expression(paste(log(alpha))), xlab = expression(paste(log((n*C)^-(1/2)))))
-abline(0,1)
 
-legend('bottomright', col = c(2,1), legend = c('unstable', 'stable'), pch = 1, bty='n')
+
+
+# Coyte2015 ---------------------------------------------------------------
+# Does SampleCommunityMatrix return matrices that predict destabilizing effect of cooperation?
+# Reproducing Figure 2B right panel
+
+if(TestCoyte2015){
+  
+  S <- 100
+  C <- 0.7
+  s <- 1
+  sigma <- 0.05
+  
+  n <- 50
+  Pm <- seq(0,1,length = n)
+  Pc <- 1 - Pm
+  
+  lambda <- rep(NA,n)
+  
+  for(i in 1:n){
+    
+    A <- SampleCommunityMatrix(S = S, C = C, sigma = sigma, Pm = Pm[i], Pc = Pc[i], s = s)
+    lambda[i] <- max(Re(eigen(A)$values))  #stable iff the eigenvalue with the largest real part is negative
+    
+  }
+  
+  quartz(h=4,w=4)
+  plot(Pm, lambda, col = as.numeric(lambda>1) + 1, xlab = expression(paste(P[m])), ylab = expression(paste(lambda)))
+  legend('topleft', col = c(2,1), legend = c('unstable', 'stable'), pch = 1, bty='n')
+  
+}
+
+
+
+
+
