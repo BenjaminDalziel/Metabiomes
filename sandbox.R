@@ -35,24 +35,22 @@ source('DrawCommunityMatrix.R')
 
 
 
-# Testing an alternate version of DrawCommunityMatrix that uses eigenvectors of community matrix
-# to deterine shape and color of a 'blob' representing the community in the metacommunity network
+# Testing an alternate version of DrawCommunityMatrix that uses an eigenvector of community matrix
+# to deterine shape f a 'blob' representing the community in the metacommunity network
 # so we can look and see same blob morphology = same ruleset (similar blob morph. = similar ruleset?)
+
+# consider using the 'superformula' lol, and letting an eigensomething
+# map to the parameters of the formula - number of axes of symmetry, etc.
+
+A <- SampleCommunityMatrix(S = 50, C = 0.05, sigma = 1, Pm = 0.25, Pc = 0.25, s = 1)
+
 
 x0 <- 0
 y0 <- 0
 
-r.base <- 0.01
+r.base <- 0.005
 r.gain <- 0.5
 bw <- 5
-
-
-quartz(h=6,w=6)
-par(pin = c(5,5))
-par(xpd = T)
-plot(0, type = 'n', xlab = '', ylab = '', xaxt = 'n', yaxt = 'n', bty = 'n', xlim = c(-1,1), ylim = c(-1,1))
-
-A <- SampleCommunityMatrix(S = 50, C = 0.05, sigma = 1, Pm = 0.25, Pc = 0.25, s = 1)
 
 eig <- eigen(A)
 v <- abs(eig$vectors[,1])
@@ -72,11 +70,10 @@ y <- smooth.spline(y)$y
 x[n] <- x[1]
 y[n] <- y[1]
 
-lambda <- eig$values[1]
-h <- 1
 
-col <- hsv(h = h, s = 1, v = 1)
 
-print(lambda)
-
-polygon(x,y,col=col)
+quartz(h=6,w=6)
+par(pin = c(5,5))
+par(xpd = T)
+plot(0, type = 'n', xlab = '', ylab = '', xaxt = 'n', yaxt = 'n', bty = 'n', xlim = c(-1,1), ylim = c(-1,1))
+polygon(x,y)
