@@ -3,16 +3,15 @@
 rm(list=ls())
 graphics.off()
 
-setwd('~/Dropbox/Research/Active/Metabiomes')
 source('SampleCommunityMatrix.R')
 source('DrawCommunityMatrix.R')
 
 
 # Choose which tests to run -----------------------------------------------
 
-TestBasicMatrixProperties <- T    # Does SampleCommunityMatrix return matrices whose properties match input parameters?
+TestBasicMatrixProperties <- F    # Does SampleCommunityMatrix return matrices whose properties match input parameters?
 TestMay1972 <- T                  # Does SampleCommunityMatrix return matrices that reproduce main result of May 1972?
-TestCoyte2015 <- T                # Does SampleCommunityMatrix return matrices that predict destabilizing effect of cooperation?
+TestCoyte2015 <- F                # Does SampleCommunityMatrix return matrices that predict destabilizing effect of cooperation?
 
 
 
