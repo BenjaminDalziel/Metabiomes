@@ -7,19 +7,22 @@ source("SampleCommunityMatrix.R")
 source("SampleCommunityMatrices.R")
 
 
+
 # Sketch of sampling community matrices
 M <- 1
 S <- 100
-Pm <- 0.25
+Pm <- 0.5
 Pc <- 0.25
 s <- 1
-sigma <- 0.05
+sigma <- 0.06
 C <- 0.7
 
 AA <- SampleCommunityMatrices(
     M = M, S = S, Pm = Pm, Pc = Pc,
     s = s, sigma = sigma, C = C
 )
+
+
 
 
 
@@ -53,15 +56,24 @@ for (i in 1:M) {
 
 # Sketch of feasibility and stability search
 FindEquilibrium <- function(A, r = rep(1, nrow(A))) {
-
     Nstar <- -solve(A) %*% r
     return(Nstar)
-
 }
 
-nrep <- 10000
-for (i in 1:nrep) {
 
+do_plot <- TRUE
+
+nrep <- 10
+
+if (do_plot) {
+    plot(0, type = "n",
+            xlim = c(-2, 0.2), ylim = c(-0.5, 0.5),
+            xlab = "Real", ylab = "Imaginary")
+    segments(0, -3, 0, 3)
+}
+
+
+for (i in 1:nrep) {
     print(i)
     A <- SampleCommunityMatrix(S, C, sigma, Pm, Pc, s)
 
@@ -71,6 +83,8 @@ for (i in 1:nrep) {
     diag(D) <- Nstar
 
     lambda <- eigen(A)$values
+
+    if (do_plot) points(Re(lambda), Im(lambda), pch = 16, col = i)
 
     is_feasible <- all(Nstar > 0)
     is_stable <- all(Re(lambda) < 0)
