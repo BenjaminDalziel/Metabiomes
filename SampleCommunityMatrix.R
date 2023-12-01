@@ -1,13 +1,14 @@
-SampleCommunityMatrix <- function(S, C, sigma, Pm, Pc, s) {
+SampleCommunityMatrix <- function(matrix_para) {
   # Return a community interaction matrix sampled per the arguments
   #
   # Arguments:
-  # S       Number of taxa
-  # C       Community connectivity i.e. proportion nonzero links
-  # sigma   Standard deviation of interaction strength
-  # Pm      Proportion cooperative interactions (+/+)
-  # Pc      Proportion competitive interactions (-/-)
-  # s       Strength of intraspecific competition
+  # matrix_para  A list of parameters for the community matrix:
+  #   S       Number of taxa
+  #   C       Community connectivity i.e. proportion nonzero links
+  #   sigma   Standard deviation of interaction strength
+  #   Pm      Proportion cooperative interactions (+/+)
+  #   Pc      Proportion competitive interactions (-/-)
+  #   s       Strength of intraspecific competition
   #
   # Remarks:
   # The method follows Coyte et al. 2015, and can reproduce the criteria used in
@@ -22,6 +23,13 @@ SampleCommunityMatrix <- function(S, C, sigma, Pm, Pc, s) {
   #
   # May, R. M. (1972). Will a large complex system be stable?
   # Nature, 238(5364), 413–414.
+
+  S <- matrix_para$S
+  C <- matrix_para$C
+  sigma <- matrix_para$sigma
+  Pm <- matrix_para$Pm
+  Pc <- matrix_para$Pc
+  s <- matrix_para$s
 
   A <- matrix(0, S, S)
   diag(A) <- -s

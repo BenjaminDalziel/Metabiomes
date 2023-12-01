@@ -1,8 +1,10 @@
-SampleCommunityMatrices <- function(M, S, C, sigma, Pm, Pc, s) {
+SampleCommunityMatrices <- function(M, matrix_para) {
     # Return an array of community interaction matrices with a specified level of universality
     #
     # Arguments:
     # M       Number of communities
+    #
+    # Matrix parameters for each community: (see SampleCommunityMatrix.R for details)
     # S       Number of taxa
     # C       Community connectivity in prototype matrix
     # sigma   Standard deviation of interaction strength in prototype matrix
@@ -20,13 +22,17 @@ SampleCommunityMatrices <- function(M, S, C, sigma, Pm, Pc, s) {
     # Coyte, K. Z., Schluter, J., & Foster, K. R. (2015).
     # Science, 350(6261), 663–666. http://doi.org/10.1126/science.aad2602
 
+    S <- matrix_para$S
+    C <- matrix_para$C
+    sigma <- matrix_para$sigma
+    Pm <- matrix_para$Pm
+    Pc <- matrix_para$Pc
+    s <- matrix_para$s
 
     A <- array(data = NA, dim = c(S, S, M))
     for (i in 1:M) {
-        A[, , i] <- SampleCommunityMatrix(S = S, C = C, sigma = sigma,
-                                            Pm = Pm, Pc = Pc, s = s)
+        A[, , i] <- SampleCommunityMatrix(matrix_para)
     }
 
     return(A)
- 
 }
