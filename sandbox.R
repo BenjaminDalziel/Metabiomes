@@ -16,6 +16,7 @@ Pc <- 0 # Pm + Pc must be less than or equal to 1
 s <- 1
 sigma <- 0.05
 C <- 0.7
+m <- 0.01    #migration rate
 
 matrix_para <- list(
     S = S, Pm = Pm, Pc = Pc, s = s, sigma = sigma, C = C
@@ -67,7 +68,7 @@ for (i in 1:nrow(B)) {
         is_disperal <- is_different_subcom & is_same_taxa
 
         if (is_disperal) {
-            B[i, j] <- 1 # TODO: Replace with migration function
+            B[i, j] <- m / (M - 1) # TODO: Replace with migration function
         }
     }
 }
