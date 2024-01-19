@@ -1,0 +1,134 @@
+\documentclass{article}
+
+% Packages for applied mathematics
+\usepackage{amsmath} % Enhanced math functionality
+\usepackage{amsfonts} % Additional math fonts
+\usepackage{amssymb} % Additional math symbols
+\usepackage{parskip}
+
+\begin{document}
+
+\section*{Supplemental Material}
+
+\subsection*{Generalized Lotka-Voltera}
+
+The generalized Lotka-Volterra model is
+\begin{align}
+\dfrac{dN_i}{dt} &= N_i\left(r_i + \sum_k a_{ik}N_k\right) \equiv f_i(N)\\
+&=r_iN_i + N_i\sum_k a_{ik}N_k \\
+&=r_iN_i + a_{ii} N_i^2 + N_i \sum_{k\neq i} a_{ik}N_k
+\end{align}
+
+Assume there is an equilibrium $N^*$ where $N^*_i>0$. For all $i$ that equilibrium must satisfy
+\begin{equation}
+f_i(N^*) = 0
+\end{equation}
+
+\begin{equation}
+r_iN^*_i + a_{ii} (N^*_i)^2 + N^*_i \sum_{k\neq i} a_{ik}N^*_k = 0
+\end{equation}
+
+\begin{equation}
+r_i + a_{ii} N^*_i + \sum_{k\neq i} a_{ik}N^*_k = 0 
+\end{equation}
+
+So 
+\begin{equation}
+-a_{ii} N^*_i = r_i + \sum_{k\neq i} a_{ik}N^*_k
+\end{equation}
+
+The diagonal of the Jacobian is
+\begin{equation}
+\dfrac{\partial f_i}{\partial N_i} = r_i + 2a_{ii} N_i + \sum_{k\neq i} a_{ik}N_k
+\end{equation}
+
+We evaluate the Jacobian at the equilrium $N_i^*$, using the relationship given in equation 7
+\begin{align}
+    \left.\dfrac{\partial f_i}{\partial N_i} \right \rvert_{N^*} 
+    &= r_i + 2a_{ii} N^*_i + \sum_{k\neq i} a_{ik}N^*_k \\
+    &= 2a_{ii} N^*_i - a_{ii}N^*_i \\ 
+    &= a_{ii} N^*_i
+\end{align}
+
+
+\subsection*{Generalized Lotka-Volterra in a Metacommunity}
+
+Let $N_i$ represent the population size for a particular taxa-location combination within the metacommunity. Let $t(i)$ return the taxa associated with $i$ and let $l(i)$ return the location associated with $i$.
+
+The generalized Lotka-Volterra model is
+\begin{align}
+\dfrac{dN_i}{dt} 
+&= N_i\left(r_i+\sum_k a_{ik}N_k\right)-mN_i+\sum_k m_{ik}N_k \equiv f_i(N) \\
+\notag\\
+&=r_iN_i + a_{ii}N_i^2 + N_i\sum_{k\neq i} a_{ik}N_k - mN_i + \sum_k m_{ik} N_k
+\end{align}
+where $a_{ii} = s_i$ represents the strength of intraspecific competition.
+
+Species interactions only occur for different taxa in the same location. Thus
+\begin{equation}
+    a_{ij} = 
+    \left\{
+        \begin{array}{ll}
+            X_{ij}, & \text{if } l(i) = l(j) \text{ and } t(i) \neq t(j)\\
+            \\
+            0, & \text{otherwise}
+            \end{array}
+            \right.
+\end{equation}
+where $X_{ij}$ is a random variable whose distribution is parameterized as described below.
+
+Individuals emigrate from a location at per-capita rate $m$. We assume that individual who emigrate select another location to immigrate to at random, with each of the $M-1$ other locations are given equal weight. Thus the rate at which individuals emigrating from $j$ arrive at $i$ is given by
+\begin{equation}
+    m_{ij} = 
+    \left\{
+        \begin{array}{ll}
+            \dfrac{m}{M-1}, & \text{if } l(i) \neq l(j) \text{ and } t(i) = t(j) \\
+            \\
+            0, & \text{otherwise}
+        \end{array}
+        \right.
+\end{equation}
+where the 0s occur because migration can only occur when $i$ and $j$ refer to the same taxa (in different locations).
+
+\subsection*{Jacobian}
+For the diagonal,
+\begin{equation}
+\dfrac{\partial f_i}{\partial N_i} = r_i + 2a_{ii}N_i + \sum_{k \neq i} a_{ik}N_k - m 
+\end{equation}
+
+For the off-diagonal,
+\begin{equation}
+\dfrac{\partial f_i}{\partial N_j} = a_{ij} N_i + m_{ij}
+\end{equation}
+
+Evaluating the Jacobian at the equilibrium $N^*$. Assume there is an equilibrium $N^*$ that satisfies $N^*_i>0$ for all $i$.
+\begin{equation}
+    N^*_i\left(r_i+\sum_k a_{ik}N^*_k\right)-mN^*_i+\sum_k m_{ik}N_k=0
+\end{equation}
+Dividing by $N_i^*$
+\begin{equation}
+r_i+\sum_k a_{ik}N^*_k-m+\dfrac{1}{N^*_i}\sum_k m_{ik}N^*_k=0
+\end{equation}
+
+Breaking apart the first sum to pull out intraspecific competition,
+\begin{equation}
+    r_i+a_{ii}N_i^* + \sum_{k \neq i} a_{ik}N^*_k-m+\dfrac{1}{N^*_i}\sum_k m_{ik}N^*_k=0
+\end{equation}
+So
+\begin{equation}
+    r_i+\sum_{k \neq i} a_{ik}N^*_k-m=-a_{ii}N_i^* - \dfrac{1}{N^*_i}\sum_k m_{ik}N^*_k
+\end{equation}
+So
+\begin{align}
+    \left.\dfrac{\partial f_i}{\partial N_i} \right \rvert_{N^*} 
+    &= r_i + 2a_{ii} N^*_i + \sum_{k\neq i} a_{ik}N^*_k - m \\
+    &= 2a_{ii}N^*_i-a_{ii}N_i^* - \dfrac{1}{N^*_i}\sum_k m_{ik}N^*_k \\
+    &= a_{ii}N^*_i- \dfrac{1}{N^*_i}\sum_k m_{ik}N^*_k
+\end{align}
+and
+\begin{align}
+    \left.\dfrac{\partial f_i}{\partial N_j} \right \rvert_{N^*} 
+    &= a_{ij} N^*_i + m_{ij}
+\end{align}
+
+\end{document}
