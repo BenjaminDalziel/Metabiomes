@@ -50,6 +50,12 @@ We evaluate the Jacobian at the equilrium $N_i^*$, using the relationship given 
     &= a_{ii} N^*_i
 \end{align}
 
+For the off-diagonal
+\begin{align}
+    \left.\dfrac{\partial f_i}{\partial N_j} \right \rvert_{N^*} 
+    &=a_{ij} N^*_i
+\end{align}
+
 
 \subsection*{Generalized Lotka-Volterra in a Metacommunity}
 
@@ -123,12 +129,68 @@ So
     \left.\dfrac{\partial f_i}{\partial N_i} \right \rvert_{N^*} 
     &= r_i + 2a_{ii} N^*_i + \sum_{k\neq i} a_{ik}N^*_k - m \\
     &= 2a_{ii}N^*_i-a_{ii}N_i^* - \dfrac{1}{N^*_i}\sum_k m_{ik}N^*_k \\
-    &= a_{ii}N^*_i- \dfrac{1}{N^*_i}\sum_k m_{ik}N^*_k
+    &= a_{ii}N^*_i - \dfrac{1}{N^*_i}\sum_k m_{ik}N^*_k
 \end{align}
 and
 \begin{align}
     \left.\dfrac{\partial f_i}{\partial N_j} \right \rvert_{N^*} 
     &= a_{ij} N^*_i + m_{ij}
 \end{align}
+
+\subsubsection*{Dealing with migration}
+We can write the first term of the Jacobian evaluated at $N^*$ as the sum of two terms where there first term is $D A$ where $D$ is the diagonal matrix with entries $N^*$ The second term represents the impact of migration. Along the diagonal this term is $- \dfrac{1}{N^*_i}\sum_k m_{ik}N^*_k$, and on the off-diagonal it is $m_{ij}$.
+\begin{equation}
+J = DA + M
+\end{equation}
+where $M$ is the matrix that holds the migration terms.
+
+\subsubsection*{Finding a feasible equilibrium when there is migration}
+The generalized Lotka-Volterra model is
+\begin{align}
+\dfrac{dN_i}{dt} 
+&= N_i\left(r_i+\sum_k a_{ik}N_k\right)-mN_i+\sum_k m_{ik}N_k \equiv f_i(N) \\
+\notag\\
+&=r_iN_i + a_{ii}N_i^2 + N_i\sum_{k\neq i} a_{ik}N_k - mN_i + \sum_k m_{ik} N_k
+\end{align}
+where $a_{ii} = s_i$ represents the strength of intraspecific competition.
+
+At a feasibile equilibrium,
+\begin{align}
+f_i(N^*) &= 0 \notag \\
+\notag \\
+\dfrac{1}{N_i}f_i(N^*) &= 0 \notag \\
+\notag \\
+r_i + a_{ii}N_i^* + \sum_{k\neq i} a_{ik}N_k^* - m + \dfrac{1}{N_i^*}\sum_k m_{ik} N_k^* &= 0 
+\end{align}
+Which we could write as
+\begin{equation}
+r + AN^* + stuff = 0
+\end{equation}
+And if $stuff$ were 0 we could solve for $N^*$ as
+\begin{equation}
+N^* = -A^{-1} \cdot r
+\end{equation}
+Let
+\begin{equation} 
+g_i(N^*) = - m + \dfrac{1}{N_i^*}\sum_k m_{ik} N_k^*
+\end{equation}
+So we are trying to solve
+\begin{equation} 
+r + AN^* + g(N^*) = 0 
+\end{equation}
+So
+\begin{equation} 
+AN^* = -g(N^*) -r
+\end{equation}
+and
+\begin{equation} 
+N^* = -A^{-1}\left(g(N^*) +r\right)
+\end{equation}
+What if we used the approximation $N^* = -A^{-1} \cdot r$ when evaluating $g$?
+Then,
+\begin{equation} 
+    N^* = -A^{-1}\left(g(-A^{-1} \cdot r) +r\right)
+\end{equation}
+This may at least help with coding.
 
 \end{document}
