@@ -10,7 +10,7 @@ source("code/SampleCommunityMatrices.R")
 
 
 # Sample community matrices
-L <- 10 # number of locations
+L <- 3 # number of locations
 S <- 100 # number of taxa
 Pm <- 0.3  #proportion mutualist
 Pc <- 0 # proportion competitive;  Pm + Pc must be less than or equal to 1
@@ -105,3 +105,7 @@ Nhatstar <- -Ainv %*% (g(Nstar_nomigration) + r)
 par(cex = 2)
 plot(Nstar_nomigration, Nhatstar)
 abline(0, 1)
+
+
+# TODO: pass Nhatstar to fsolve to try to get closer to Nstar
+library(pracma)
