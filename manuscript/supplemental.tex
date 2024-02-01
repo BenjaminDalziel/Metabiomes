@@ -81,20 +81,20 @@ Species interactions only occur for different taxa in the same location. Thus
             \end{array}
             \right.
 \end{equation}
-where $X_{ij}$ is a random variable whose distribution is parameterized as described below.
+where $X_{ij}$ is a random variable whose distribution is parameterized as described below. 
 
-Individuals emigrate from a location at per-capita rate $m$. We assume that individual who emigrate select another location to immigrate to at random, with each of the $M-1$ other locations are given equal weight. Thus the rate at which individuals emigrating from $j$ arrive at $i$ is given by
+Individuals emigrate from a location at per-capita rate $m$. We assume that individual who emigrate select another location to immigrate to at random, with each of the $L-1$ other locations are given equal weight. Thus the rate at which individuals emigrating from $j$ arrive at $i$ is given by
 \begin{equation}
     m_{ij} = 
     \left\{
         \begin{array}{ll}
-            \dfrac{m}{M-1}, & \text{if } l(i) \neq l(j) \text{ and } t(i) = t(j) \\
+            \dfrac{m}{L-1}, & \text{if } l(i) \neq l(j) \text{ and } t(i) = t(j) \\
             \\
             0, & \text{otherwise}
         \end{array}
         \right.
 \end{equation}
-where the 0s occur because migration can only occur when $i$ and $j$ refer to the same taxa (in different locations).
+where the 0s occur because migration can only occur when $i$ and $j$ refer to the same taxa (in different locations). Let $M = [m_{ij}]$.
 
 \subsection*{Jacobian}
 For the diagonal,
@@ -140,9 +140,9 @@ and
 \subsubsection*{Dealing with migration}
 We can write the Jacobian evaluated at $N^*$ as the sum of two terms where there first term is $D A$ where $D$ is the diagonal matrix with entries $N^*$ The second term represents the impact of migration. Along the diagonal this term is $- \dfrac{1}{N^*_i}\sum_k m_{ik}N^*_k$, and on the off-diagonal it is $m_{ij}$.
 \begin{equation}
-J = DA + M
+J = DA + G
 \end{equation}
-where $M$ is the matrix that holds the migration terms.
+where $G$ is the matrix that holds the migration terms.
 
 \subsubsection*{Finding a feasible equilibrium when there is migration}
 The generalized Lotka-Volterra model is

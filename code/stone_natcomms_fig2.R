@@ -112,7 +112,7 @@ TabulateSimulations <- function(matrix_para, method, nrep){
 
 
 # Reproduce Stone Nature Comms fig 2
-Pm_seq <- seq(0, 0.6, 0.01)
+Pm_seq <- seq(0, 0.6, 0.05)
 nlev <- length(Pm_seq)
 
 crit <- rep(NA, nlev)
