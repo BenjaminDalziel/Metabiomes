@@ -3,8 +3,8 @@
 rm(list = ls())
 graphics.off()
 
-source("SampleCommunityMatrix.R")
-source("SampleCommunityMatrices.R")
+source("code/SampleCommunityMatrix.R")
+source("code/SampleCommunityMatrices.R")
 
 
 

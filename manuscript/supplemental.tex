@@ -150,9 +150,13 @@ The generalized Lotka-Volterra model is
 \dfrac{dN_i}{dt} 
 &= N_i\left(r_i+\sum_k a_{ik}N_k\right)-mN_i+\sum_k m_{ik}N_k \equiv f_i(N) \\
 \notag\\
-&=r_iN_i + a_{ii}N_i^2 + N_i\sum_{k\neq i} a_{ik}N_k - mN_i + \sum_k m_{ik} N_k
+&=r_iN_i + a_{ii}N_i^2 + N_i\sum_{k\neq i} a_{ik}N_k - mN_i + \sum_k m_{ik} N_k \\
+\notag\\
+&=\sum_k m_{ik} N_k + \left(r_i + \sum_{k\neq i} a_{ik}N_k - m\right) N_i + a_{ii}N_i^2
 \end{align}
 where $a_{ii} = s_i$ represents the strength of intraspecific competition.
+
+We think that Descartes rule of signs says that this must have a positive real root. We are not sure whether Descartes rule applies to the roots of systems of polynomials but can't see why it wouldn't. The reasoning is that the first term (constant) is positive, the second (linear) is either positive or negative, and the third (quadratic) is negative. So there is exactly one sign change, that is either between the constant and linear term or the linear and quadratic term depending on the value of the linear coefficient. This implies that any non-zero amount of migration will guarentee the metacommunity has a feasible equilibrium which is suprising. 
 
 At a feasibile equilibrium,
 \begin{align}
@@ -168,7 +172,7 @@ r + AN^* + stuff = 0
 \end{equation}
 And if $stuff$ were 0 we could solve for $N^*$ as
 \begin{equation}
-N^* = -A^{-1} \cdot r
+N^*_{m=0} = -A^{-1} \cdot r
 \end{equation}
 Let
 \begin{equation} 
@@ -186,11 +190,11 @@ and
 \begin{equation} 
 N^* = -A^{-1}\left(g(N^*) +r\right)
 \end{equation}
-What if we used the approximation $N^* = -A^{-1} \cdot r$ when evaluating $g$?
-Then,
+What if we used the approximation $N^* = N^*_{m=0}=-A^{-1} \cdot r$ when evaluating $g$?
+Then we approximate $N^*$ as
 \begin{equation} 
-    N^* = -A^{-1}\left(g(-A^{-1} \cdot r) +r\right)
+    \hat N^* = -A^{-1}\left(g(-A^{-1} \cdot r) +r\right)
 \end{equation}
-This may at least help with coding.
+We could at least use this as the point near the root to pass to fsolve.
 
 \end{document}
