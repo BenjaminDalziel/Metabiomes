@@ -63,7 +63,7 @@ mimage(A, main = "Metacommunity interaction matrix, A")
 
 
 # Assemble metacommunity immigration matrix
-M <- matrix(0, S * L, S * L)
+m_ij <- matrix(0, S * L, S * L)
 
 row_taxa <- matrix(1:S, nrow = L * S, ncol = L * S, byrow = FALSE)
 col_taxa <- t(row_taxa)
@@ -73,20 +73,20 @@ row_subcom <- matrix(x, nrow = L * S, ncol = L * S, byrow = FALSE)
 col_subcom <- t(row_subcom)
 
 
-for (i in 1:nrow(M)) {
-    for (j in 1:ncol(M)) {
+for (i in 1:nrow(m_ij)) {
+    for (j in 1:ncol(m_ij)) {
         is_different_subcom <- row_subcom[i, j] != col_subcom[i, j]
         is_same_taxa <- row_taxa[i, j] == col_taxa[i, j]
         is_disperal <- is_different_subcom & is_same_taxa
 
         if (is_disperal) {
-            M[i, j] <- m / (L - 1)
+            m_ij[i, j] <- m / (L - 1)
         }
     }
 }
 
 # Plot
-mimage(M, main = "Metacommunity immigration matrix, M")
+mimage(m_ij, main = "Metacommunity immigration matrix, M")
 
 
 
@@ -96,7 +96,7 @@ Nstar_nomigration <- -Ainv %*% r
 
 g <- function(N) {
 
-    -m + 1 / N * M %*% N
+    -m + 1 / N * m_ij %*% N
 
 }
 
@@ -108,4 +108,10 @@ abline(0, 1)
 
 
 # TODO: pass Nhatstar to fsolve to try to get closer to Nstar
-library(pracma)
+# library(pracma)
+
+
+# Assemble G matrix
+G <- matrix(0, nrow = nrow(A), ncol = ncol(A))
+diag(G) <- -1 / Nhatstar * m_ij %*% Nhatstar
+G <- G + m_ij
