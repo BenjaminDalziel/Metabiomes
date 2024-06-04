@@ -115,3 +115,16 @@ abline(0, 1)
 G <- matrix(0, nrow = nrow(A), ncol = ncol(A))
 diag(G) <- -1 / Nhatstar * m_ij %*% Nhatstar
 G <- G + m_ij
+
+
+D <- matrix(0, nrow = nrow(A), ncol = ncol(A))
+diag(D) <- Nhatstar
+Z <- D %*% A 
+
+# Stone Meta matrix
+StoneMM <- Z + G
+
+#  eigenvalues of Stone Meta Matrix
+eig_values <- eigen(StoneMM)$values
+
+
