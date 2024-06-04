@@ -20,14 +20,17 @@ SampleCommunityMatrices <- function(M, matrix_para) {
     # Remarks:
     # The method follows Coyte et al. 2015.
     # SampleCommunityMatrix is the workhorse function.
-    # If delta is missing the community matrices are drawn independently.
-    # If delta is not missing the method of Bashan et al. is used..
+    # If delta is NULL the community matrices are drawn independently.
+    # If delta is not NULL the method of Bashan et al. is used.
 
     # References:
     # Coyte, K. Z., Schluter, J., & Foster, K. R. (2015).
     # Science, 350(6261), 663–666. http://doi.org/10.1126/science.aad2602
 
-    # Bashan, A., Gibson, T.E., Friedman, J., Carey, V.J., Weiss, S.T., Hohmann, E.L. and Liu, Y.Y. (2016). Universality of human microbial dynamics. Nature, 534(7606), 259-262. http://doi.org/10.1038/nature18301
+    # Bashan, A., Gibson, T.E., Friedman, J., Carey, V.J.,
+    # Weiss, S.T., Hohmann, E.L. and Liu, Y.Y. (2016).
+    # Universality of human microbial dynamics. Nature, 534(7606),
+    # 259-262. http://doi.org/10.1038/nature18301
 
 
     S <- matrix_para$S
@@ -36,15 +39,16 @@ SampleCommunityMatrices <- function(M, matrix_para) {
     Pm <- matrix_para$Pm
     Pc <- matrix_para$Pc
     s <- matrix_para$s
-    delta <- matrix_para$delta
-
+    
     A <- array(data = NA, dim = c(S, S, M))
-    if (is.na(delta)) {
+    if (is.null(matrix_para$delta)) {
         for (i in 1:M) {
             A[, , i] <- SampleCommunityMatrix(matrix_para)
         }
     } else {
-        # base interaction matrix
+        
+        delta <- matrix_para$delta
+        
         B <- SampleCommunityMatrix(matrix_para)
 
         for (i in 1:M) {
