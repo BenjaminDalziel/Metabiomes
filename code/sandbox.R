@@ -94,13 +94,13 @@ mimage(m_ij, main = "Metacommunity immigration matrix, M")
 Ainv <- solve(A)
 Nstar_nomigration <- -Ainv %*% r
 
-g <- function(N) {
+g <- function(N, m, m_ij) {
 
     -m + 1 / N * m_ij %*% N
 
 }
 
-Nhatstar <- -Ainv %*% (g(Nstar_nomigration) + r)
+Nhatstar <- -Ainv %*% (g(Nstar_nomigration, m, m_ij) + r)
 
 par(cex = 2)
 plot(Nstar_nomigration, Nhatstar)
@@ -126,5 +126,3 @@ StoneMM <- Z + G
 
 #  eigenvalues of Stone Meta Matrix
 eig_values <- eigen(StoneMM)$values
-
-
