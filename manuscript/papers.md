@@ -3,4 +3,3 @@
 3.	^ Bastolla, U.; Fortuna, M. A.; Pascual-García, A.; Ferrera, A.; Luque, B.; Bascompte, J. (2009). "The architecture of mutualistic networks minimizes competition and increases biodiversity". Nature. 458 (7241): 1018–20. Bibcode:2009Natur.458.1018B. doi:10.1038/nature07950. PMID 19396144. S2CID 4395634.
 4.	^ Suweis S, Grilli J, Banavar JR, Allesina S, Maritan A (December 2015). "Effect of localization on the stability of mutualistic ecological networks". Nat Commun. 6: 10179. Bibcode:2015NatCo...610179S. doi:10.1038/ncomms10179. PMC 4703855. PMID 26674106.
 5.	^ Jump up to:a b c Lever, J. J.; Nes, E. H.; Scheffer, M.; Bascompte, J. (2014). "The sudden collapse of pollinator communities". Ecology Letters. 17 (3): 350–9. Bibcode:2014EcolL..17..350L. doi:10.1111/ele.12236. hdl:10261/91808. PMID 24386999.
-![image](https://github.com/user-attachments/assets/eb94a2c0-849a-4056-b77a-de6c98f8e688)
