@@ -109,24 +109,39 @@ if (TestMay1972) {
 
   nrep <- 100
   lambda <- rep(NA, nrep)
+  lambdas <- matrix(NA, nrep, S)
 
-  sigma <- runif(nrep, 0, 1)
-  C <- runif(nrep, 0, 1)
+  sigma <- rep(0.05, nrep) #runif(nrep, 0, 1)
+  C <- rep(0.7, nrep) #runif(nrep, 0, 1)
 
   for (i in 1:nrep) {
     matrix_para <- list(S = S, C = C[i], sigma = sigma[i], Pm = Pm, Pc = Pc, s = s)
     A <- SampleCommunityMatrix(matrix_para)
     lambda[i] <- max(Re(eigen(A)$values)) # stable iff the eigenvalue with the largest real part is negative
+    lambdas[i, ] <- eigen(A)$values
     print(i)
   }
 
   n <- S
-  alpha <- sigma^2
+  alpha <- sigma
   quartz(h = 4, w = 4)
   par(pin = c(2, 2))
   plot(log((n * C)^-(1 / 2)), log(alpha), col = as.numeric(lambda > 1) + 1, ylab = expression(paste(log(alpha))), xlab = expression(paste(log((n * C)^-(1 / 2)))))
   abline(0, 1)
   legend("bottomright", col = c(2, 1), legend = c("unstable", "stable"), pch = 1, bty = "n")
+
+  quartz()
+  lim <- 2
+  plot(Re(lambdas), Im(lambdas), cex = 0.1, col = rainbow(nrep), xlim = c(-lim, lim), ylim = c(-lim, lim))
+  points(lambda, rep(0, nrep), col = 1)
+
+  radius <- sigma[1] * sqrt(S[1] * C[1])
+  x <- seq(-radius, radius, length = 100)
+  y <- sqrt(radius^2 - x^2)
+  lines(-s + c(x, rev(x)), c(y, -y), col = 1)
+
+
+ 
 }
 
 
